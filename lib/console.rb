@@ -30,7 +30,7 @@ class Console
       if menu == "1"
         search_by_location
       elsif menu == "2"
-
+        cheapest_flight_random_location
       elsif menu == "3"
         print_all_locations
       end
@@ -50,6 +50,11 @@ class Console
     print_search_results(sort_flight_from_user_input(city, sort_choice))
   end
 
+  def cheapest_flight_random_location
+    random_locale = Location.random_locale
+    print_single_result(random_locale.cheapest_flight_for_this_location)
+  end
+
   def sort_flight_from_user_input(city, sort_choice)
     if sort_choice.downcase == "n" || sort_choice == "1"
       city.order_flights_by
@@ -58,6 +63,14 @@ class Console
     elsif sort_choice == "3"
       city.order_flights_by("departure_time")
     end
+  end
+
+  def print_single_result(result)
+    puts "-------------------"
+    puts "| Price       #{results.price}|"
+    puts "| Travel Time #{results.travel_time} |"
+    puts "-------------------"
+    puts ""
   end
 
   def print_search_results(results_array)
