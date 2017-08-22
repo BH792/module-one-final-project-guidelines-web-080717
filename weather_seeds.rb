@@ -29,13 +29,15 @@ location_ids.each do |location_name, location_id|
   json_data = JSON.parse(RestClient.get("http://api.openweathermap.org/data/2.5/forecast/daily?APPID=b4515c75e2c531633305d421e3511317&id=#{location_id}"))
   location_obj = Location.find_by(name: location_name)
   day_of_week = 1 #out of 7
-  7.times do
+  7.times do #for each day of the week
     index_position = day_of_week - 1
-    min_temp = json_data["list"][index_position]["temp"]["min"] #for day 1 of 7
-    max_temp = json_data["list"][index_position]["temp"]["max"] #for day 1 of 7
-    main_weather = json_data["list"][index_position]["weather"][0]["main"] #for day 1 of 7
+    minimum_temp_kelvin = json_data["list"][index_position]["temp"]["min"]
+    maximum_temp_kelvin = json_data["list"][index_position]["temp"]["max"]
+    minimum_temp_f = (minimum_temp_kelvin * 9/5) - 459.67
+    maximum_temp_f = (maximum_temp_kelvin * 9/5) - 459.67
+    main_forecast = json_data["list"][index_position]["weather"][0]["main"]
+    location_obj.forecasts.create(day_of_week: day_of_week, max_temp: maximum_temp_f, min_temp: minimum_temp_f, main_weather: main_forecast)
     day_of_week += 1
   end
-  binding.pry
 
 end
