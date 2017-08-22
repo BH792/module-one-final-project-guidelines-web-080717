@@ -3,10 +3,6 @@ require "pry"
 class Forecast < ActiveRecord::Base
   belongs_to :location
 
-  def self.forecasts_with_no_rain
-    Forecast.where("main_weather != 'Rain'")
-  end
-
   def self.clear_locations #find locations where 7/7 days are not rainy or snowy
     Location.all.select do |location|
       location_id = location.id
@@ -40,6 +36,13 @@ class Forecast < ActiveRecord::Base
       week_forecast = Forecast.where(location_id: location_id)
       num_rainy_days = week_forecast.where("main_weather = 'Rain'").count
       num_rainy_days >= 4
+    end
+  end
+
+  def self.clear_locations_flights #returns cheapest flight for each all clear location
+    locations = self.clear_locations
+    x = locations.collect do |location|
+      location.cheapest_flight_for_this_location
     end
   end
 

@@ -19,4 +19,16 @@ class Location < ActiveRecord::Base
   def cheapest_flight_for_this_location
     self.flights.order("price ASC")[0]
   end
+
+  def week_forecast #array comes in [[min, max, desciptor] x 7]
+    forecast = Forecast.where(location_id: self.id)
+    array = []
+    forecast.each do |daily_forecast|
+      min = daily_forecast.min_temp
+      max = daily_forecast.max_temp
+      descriptor = daily_forecast.main_weather
+      array << [min, max, descriptor]
+    end
+    array
+  end
 end
