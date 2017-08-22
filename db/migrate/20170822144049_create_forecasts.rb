@@ -1,6 +1,6 @@
-class CreateWeather < ActiveRecord::Migration[5.0]
+class CreateForecasts < ActiveRecord::Migration[5.0]
   def change
-    create_table :weather do |t|
+    create_table :forecasts do |t|
       t.integer :location_id
       t.integer :day_of_week
       t.integer :max_temp

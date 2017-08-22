@@ -10,12 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821195014) do
+ActiveRecord::Schema.define(version: 20170822144049) do
 
   create_table "flights", force: :cascade do |t|
     t.integer "price"
     t.integer "travel_time"
     t.integer "location_id"
+  end
+
+  create_table "forecasts", force: :cascade do |t|
+    t.integer "location_id"
+    t.integer "day_of_week"
+    t.integer "max_temp"
+    t.integer "min_temp"
+    t.string  "main_weather"
   end
 
   create_table "locations", force: :cascade do |t|

@@ -1,8 +1,8 @@
 
 require_relative "config/environment.rb"
 
+
 location_ids = {
-  "Miami" => 416138,
   "Atlanta" => 4180439,
   "Los Angeles" => 5344994,
   "Chicago" => 4887398,
@@ -13,6 +13,7 @@ location_ids = {
   "Seattle/Tacoma" => 5809844,
   "Charlotte" => 4460243,
   "Phoenix" => 5308655,
+  "Miami" => 4164138,
   "Orlando" => 4167147,
   "Houston" => 4699066,
   "Minneapolis/St.Paul" => 5037649,
@@ -25,9 +26,16 @@ location_ids = {
 }
 
 location_ids.each do |location_name, location_id|
-
-  min_temp =
-
-json_data = JSON.parse(RestClient.get("http://api.openweathermap.org/data/2.5/forecast/daily?id=5856195&APPID=b4515c75e2c531633305d421e3511317"))
+  json_data = JSON.parse(RestClient.get("http://api.openweathermap.org/data/2.5/forecast/daily?APPID=b4515c75e2c531633305d421e3511317&id=#{location_id}"))
+  location_obj = Location.find_by(name: location_name)
+  day_of_week = 1 #out of 7
+  7.times do
+    index_position = day_of_week - 1
+    min_temp = json_data["list"][index_position]["temp"]["min"] #for day 1 of 7
+    max_temp = json_data["list"][index_position]["temp"]["max"] #for day 1 of 7
+    main_weather = json_data["list"][index_position]["weather"][0]["main"] #for day 1 of 7
+    day_of_week += 1
+  end
+  binding.pry
 
 end
