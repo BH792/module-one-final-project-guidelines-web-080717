@@ -13,3 +13,8 @@ require_relative '../config/environment'
         #Ask if user wants 1)No rain or snow, 2)Mostly no rain or snow, 2)Mostly rain, 3)Mostly snow
           #=>return 3 of the locations with the cheapest flights, ask if they want to see more or if they want to exit
     #2)Cheapest flight anywhere => returns chepeast flight to any location
+print "Enter location:  "
+location = gets.chomp
+loc = Location.find_by_name_or_airport(location)
+puts loc
+binding.pry
