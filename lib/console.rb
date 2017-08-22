@@ -106,4 +106,46 @@ module Console
     end
     print "\n"
   end
+
+  def self.to_unicode(weather)
+    case weather
+    when "Rain"
+      "\u2602"
+    when "Clear"
+      "\u2600"
+    when "Clouds"
+      "\u2601"
+    else
+      " "
+    end
+  end
+
+  def self.print_weather_display(weather_array)
+    tt_str = ""
+    tm_str = ""
+    bm_str = ""
+    bb_str = ""
+    weather_array.each do |day|
+      tt_str += "|" + "\u203E" * 9 + "|"
+      tm_str += "|    #{to_unicode(day[2])}    |"
+      bm_str += "| #{day[0]}\u00B0/#{day[1]}\u00B0 |"
+      bb_str += "|_________|"
+    end
+    puts tt_str
+    puts tm_str
+    puts bm_str
+    puts bb_str
+  end
 end
+
+weather_array = [
+  [75, 76, "Rain"],
+  [75, 82, "Rain"],
+  [60, 70, "Clear"],
+  [79, 85, "Clear"],
+  [72, 76, "Clouds"],
+  [75, 77, "Clouds"],
+  [70, 74, "Clouds"],
+]
+
+Console.print_weather_display(weather_array)
