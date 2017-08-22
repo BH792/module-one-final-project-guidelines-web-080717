@@ -1,15 +1,15 @@
 require_relative "./config/environment"
 
 locations = [
-  # ["Atlanta", "ATL"],
-  # ["Los Angeles", "LAX"],
-  # ["Chicago", "ORD"],
-  # ["Dallas/Fort Worth", "DFW"],
-  # ["Denver", "DEN"],
-  # ["San Francisco", "SFO"],
-  # ["Las Vegas", "LAS"],
-  # ["Seattle/Tacoma", "SEA"],
-  ["Charlotte", "NC"],
+  ["Atlanta", "ATL"],
+  ["Los Angeles", "LAX"],
+  ["Chicago", "ORD"],
+  ["Dallas/Fort Worth", "DFW"],
+  ["Denver", "DEN"],
+  ["San Francisco", "SFO"],
+  ["Las Vegas", "LAS"],
+  ["Seattle/Tacoma", "SEA"],
+  ["Charlotte", "CLT"],
   ["Phoenix", "PHX"],
   ["Miami", "MIA"],
   ["Orlando", "MCO"],
@@ -61,6 +61,8 @@ locations.each do |location|
   flights_array.each do |flight|
     new_location.flights.create(price: flight[0][3..-1], travel_time: flight[1])
   end
+
+  sleep(1)
 
 end
 
