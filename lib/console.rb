@@ -120,6 +120,22 @@ module Console
     end
   end
 
+  def self.temp_to_string_min(temp)
+    if temp < 100
+      " #{temp}"
+    else
+      "#{temp}"
+    end
+  end
+
+  def self.temp_to_string_max(temp)
+    if temp < 100
+      "#{temp}\u00B0 "
+    else
+      "#{temp}\u00B0"
+    end
+  end
+
   def self.print_weather_display(weather_array)
     tt_str = ""
     tm_str = ""
@@ -128,7 +144,7 @@ module Console
     weather_array.each do |day|
       tt_str += "|" + "\u203E" * 9 + "|"
       tm_str += "|    #{to_unicode(day[2])}    |"
-      bm_str += "| #{day[0]}\u00B0/#{day[1]}\u00B0 |"
+      bm_str += "|#{temp_to_string_min(day[0])}\u00B0/#{temp_to_string_max(day[1])}|"
       bb_str += "|_________|"
     end
     puts tt_str
@@ -141,7 +157,7 @@ end
 weather_array = [
   [75, 76, "Rain"],
   [75, 82, "Rain"],
-  [60, 70, "Clear"],
+  [100, 102, "Clear"],
   [79, 85, "Clear"],
   [72, 76, "Clouds"],
   [75, 77, "Clouds"],
