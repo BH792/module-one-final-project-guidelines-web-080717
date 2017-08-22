@@ -4,6 +4,7 @@ require_relative '../config/environment'
   #SEARCH
     #1)Search by location, 2)Search by weather
       #SEARCH BY LOCATION
+        #=>Show users possible locations
         #Ask user for location (accepts full name or airport code)
         #Ask user if they want to sort by 1)Price, 2)Flight duration, 3)Departure time
           #=>return 3 of the flights for the next day to that location, ask if they want to see more or if they want to exit ("FareWell!")
