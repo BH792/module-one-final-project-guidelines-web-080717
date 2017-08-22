@@ -1,8 +1,8 @@
 require 'colorized_string'
 
-class Console
+module Console
 
-  def print_main_menu
+  def self.print_main_menu
   puts <<-MENU
   1) Search flights
   2) Cheapest flight anywhere
@@ -11,17 +11,17 @@ class Console
   MENU
   end
 
-  def print_welcome_message
+  def self.print_welcome_message
     puts ColorizedString["\u272f" * 4 + "Farewell" + "\u272f" * 4].yellow.blink
   end
 
-  def print_all_locations
+  def self.print_all_locations
     Location.all.each_with_index do |location, index|
       puts "#{index + 1}. #{location.name}"
     end
   end
 
-  def main_menu_user_input_loop
+  def self.main_menu_user_input_loop
     menu = nil
     while menu != "4"
       print_welcome_message
@@ -38,7 +38,7 @@ class Console
     farewell_message
   end
 
-  def search_by_location
+  def self.search_by_location
     print "Enter Destination:  "
     location = gets.chomp
     city = Location.find_by_name_or_airport(location)
@@ -50,12 +50,12 @@ class Console
     print_search_results(sort_flight_from_user_input(city, sort_choice))
   end
 
-  def cheapest_flight_random_location
+  def self.cheapest_flight_random_location
     random_locale = Location.random_locale
     print_single_result(random_locale.cheapest_flight_for_this_location)
   end
 
-  def sort_flight_from_user_input(city, sort_choice)
+  def self.sort_flight_from_user_input(city, sort_choice)
     if sort_choice.downcase == "n" || sort_choice == "1"
       city.order_flights_by
     elsif sort_choice == "2"
@@ -65,15 +65,15 @@ class Console
     end
   end
 
-  def print_single_result(result)
+  def self.print_single_result(result)
     puts "-------------------"
-    puts "| Price       #{results.price}|"
-    puts "| Travel Time #{results.travel_time} |"
+    puts "| Price       #{result.price}|"
+    puts "| Travel Time #{result.travel_time} |"
     puts "-------------------"
     puts ""
   end
 
-  def print_search_results(results_array)
+  def self.print_search_results(results_array)
     if results_array.length >= 3
       for i in 0..2
         puts "-------------------"
@@ -98,7 +98,7 @@ class Console
     end
   end
 
-  def farewell_message
+  def self.farewell_message
     message = "Farewell...".split("")
     (message.length).times do
       print message.shift

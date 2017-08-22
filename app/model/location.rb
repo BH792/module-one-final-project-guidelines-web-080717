@@ -11,15 +11,12 @@ class Location < ActiveRecord::Base
     # category: travel_time, price, departure_time
     self.flights.order("#{category} ASC")
   end
-<<<<<<< HEAD
 
   def self.random_locale
-    self.flights[rand(self.all.count)]
+    self.all[rand(self.all.count)]
   end
 
   def cheapest_flight_for_this_location
     self.flights.order("price ASC")[0]
   end
-=======
->>>>>>> origin/forecast-db-seeding
 end
