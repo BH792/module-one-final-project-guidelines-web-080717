@@ -21,7 +21,7 @@ class CommandLine
 
   def self.print_all_locations
     Location.all.each_with_index do |location, index|
-      puts "#{index + 1}. #{location.name}"
+      puts ColorizedString["#{index + 1}."].yellow + " #{location.name}"
     end
   end
 
