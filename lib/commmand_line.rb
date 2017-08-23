@@ -88,9 +88,31 @@ class CommandLine
     end
     (message.length).times do
       print ColorizedString[message.shift].yellow
-      sleep(0.25)
+      sleep(0.2)
     end
+
+    system "clear"
     puts
+    puts
+    puts
+    puts ColorizedString["            \u2708"].magenta
+    sleep(0.4)
+
+    system "clear"
+    puts
+    puts
+    puts ColorizedString["                \u2708"].magenta
+    sleep(0.4)
+
+    system "clear"
+    puts
+    puts ColorizedString["                    \u2708"].magenta
+    sleep(0.4)
+
+    system "clear"
+    puts ColorizedString["                        \u2708"].magenta
+    sleep(0.4)
+    system "clear"
   end
 
   def self.to_unicode(weather)
