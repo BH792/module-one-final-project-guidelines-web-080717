@@ -6,5 +6,7 @@ ActiveRecord::Base.establish_connection(
   database: 'db/flight_weather.db'
   )
 
+ActiveRecord::Base.logger = false
+
 require_all 'lib'
 require_all 'app'

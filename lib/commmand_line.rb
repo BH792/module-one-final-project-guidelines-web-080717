@@ -5,11 +5,14 @@ class CommandLine
 
   def self.print_main_menu
   puts <<-MENU
-  1) Search flights
-  2) Cheapest flight anywhere
-  3) List Destinations
-  4) Exit
+  1) Search flights by location
+  2) Search flights by weather
+  3) Cheapest flight to random location
+  4) This is the cheapest flight
+  5) List Destinations
+  6) Exit
   MENU
+  print "Select number: "
   end
 
   def self.print_welcome_message
@@ -24,61 +27,68 @@ class CommandLine
 
   def self.main_menu_user_input_loop
     menu = nil
-    while menu != "4"
+    while menu != "6"
+      system "clear"
       print_welcome_message
       print_main_menu
       menu = gets.chomp
       if menu == "1"
+        system "clear"
         search_by_location
+        pause
       elsif menu == "2"
-        cheapest_flight_random_location
+        system "clear"
+        weather_menu
       elsif menu == "3"
+        system "clear"
+        cheapest_flight_random_location
+        pause
+      elsif menu == "4"
+        system "clear"
+        cheapest_flight_ever
+        pause
+      elsif menu == "5"
+        system "clear"
         print_all_locations
+        pause
       end
     end
     farewell_message
   end
 
-  def self.print_single_result(result)
-    puts "-------------------"
-    puts "| Price       #{result.price}|"
-    puts "| Travel Time #{result.travel_time} |"
-    puts "-------------------"
-    puts ""
+  def self.pause
+    gets
   end
 
-  def self.print_search_results(results_array)
-    if results_array.length >= 3
-      for i in 0..2
-        puts "-------------------"
-        puts "| Price       #{results_array[i].price}|"
-        puts "| Travel Time #{results_array[i].travel_time} |"
-        puts "-------------------"
-        puts ""
-      end
-    end
+  def self.display_single_flight(flight)
+    location = flight.location
+    puts ColorizedString["\u272f" * 4 + "You're going to #{location.name}" + "\u272f" * 4].yellow.blink
+    print_airline_cards(Flight.cheapest_flight)
+    forecast = location.week_forecast
+    print_weather_display(forecast)
+  end
 
-    if results_array.length > 3
-      print "See All (y/n?):  "
-      if gets.chomp == "y"
-        for i in 0..(results_array.length - 1)
-          puts "-------------------"
-          puts "| Price       #{results_array[i].price}|"
-          puts "| Travel Time #{results_array[i].travel_time} |"
-          puts "-------------------"
-          puts ""
-        end
-      end
-    end
+  def self.cheapest_flight_ever
+    display_single_flight(Flight.cheapest_flight[0])
+  end
+
+  def self.cheapest_flight_random_location
+    random_locale = Location.random_locale
+    display_single_flight(random_locale.cheapest_flight_for_this_location)
   end
 
   def self.farewell_message
-    message = "Farewell...".split("")
+    system "clear"
+    message = ["F", "a", "r", "e", "w", "e", "l", "l", " ", "\u2708", " ", "\u2708", " ", "\u2708"]
+    for i in 1..3 do
+      print ColorizedString["    " * i + "\n" + "    " * i + " \u2708\r"].red
+      sleep(0.5)
+    end
     (message.length).times do
-      print message.shift
+      print ColorizedString[message.shift].yellow
       sleep(0.25)
     end
-    print "\n"
+    puts
   end
 
   def self.to_unicode(weather)
@@ -143,29 +153,5 @@ class CommandLine
       strings[6] += "     |" + "_" * 28 + "|"
     end
     strings.each { |str| puts str}
-  end
-
-  def self.test
-    weather = [
-      [70, 70, "Clear"],
-      [70, 70, "Clear"],
-      [70, 70, "Clear"],
-      [70, 70, "Clear"],
-      [70, 70, "Clear"],
-      [70, 70, "Clear"],
-      [70, 70, "Clear"]
-    ]
-    puts "\e[H\e[2J"
-    puts "Location"
-    flight_results = Flight.all.limit(2)
-    flight_results2 = Flight.all.limit(1)
-    print_weather_display(weather)
-    puts
-    print_airline_cards(flight_results)
-    puts
-    print_airline_cards(flight_results2)
-    puts
-    puts "See More?"
-
   end
 end

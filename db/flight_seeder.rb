@@ -1,4 +1,4 @@
-require_relative "./config/environment"
+require_relative "../config/environment"
 
 locations = [
   ["Atlanta", "ATL"],
@@ -25,16 +25,16 @@ locations = [
 
 iata_codes = {
 "Delta" => "DL",
-"American Airlines" => "AA",
+"American" => "AA",
 "JetBlue" => "B6",
 "Southwest" => "WN",
-"Hawaiian Airlines" => "HA" ,
-"Alaskan Airlines" => "AS",
-"United Airlines" => "UA",
-"Allegiant Air " => "G4",
-"Frontier " => "F9",
+"Hawaiian" => "HA" ,
+"Alaskan" => "AS",
+"United" => "UA",
+"Allegiant" => "G4",
+"Frontier" => "F9",
 "Spirit" => "NK",
-"Virgin America" => "VX"
+"Virgin" => "VX"
 }
 
 key = "AIzaSyA38Tw-M62KJwPwEWSZ06aFh5dIl-eYfYM"
