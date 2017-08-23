@@ -153,9 +153,5 @@ class Console
     puts bm_str
     puts bb_str
   end
-<<<<<<< HEAD
-=======
 
-
->>>>>>> origin/search-by-weather
 end
