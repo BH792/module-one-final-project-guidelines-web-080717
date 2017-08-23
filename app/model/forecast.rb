@@ -39,11 +39,31 @@ class Forecast < ActiveRecord::Base
     end
   end
 
-  def self.clear_locations_flights #returns cheapest flight for each all clear location
-    locations = self.clear_locations
+  def self.cheapest_flight_by_weather(locations)
     locations.collect do |location|
       location.cheapest_flight_for_this_location
-    end
+    end.sort_by {|obj| obj.price}
   end
+
+  def self.clear_flights #returns cheapest flight for each all clear location
+    locations = self.clear_locations
+    self.cheapest_flight_by_weather(locations)
+  end
+
+  def self.rainy_flights
+    locations = self.rainy_locations
+    self.cheapest_flight_by_weather(locations)
+  end
+
+  def self.mostly_clear_flights
+    locations = self.mostly_clear_locations
+    self.cheapest_flight_by_weather(locations)
+  end
+
+  def self.mostly_rainy_flights
+    locations = self.mostly_rainy_locations
+    self.cheapest_flight_by_weather(locations)
+  end
+
 
 end
