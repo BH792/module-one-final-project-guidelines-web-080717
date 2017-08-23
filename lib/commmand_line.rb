@@ -1,6 +1,6 @@
 require 'colorized_string'
 
-class Console
+class CommandLine
   extend SearchByWeather, SearchByLocation
 
   def self.print_main_menu
@@ -127,20 +127,45 @@ class Console
     puts d_str
   end
 
-  def self.print_airline_cards(airline_results = [])
-    a_str = ""
-    b_str = ""
-    c_str = ""
-    d_str = ""
-    airline_results.each do |day|
-      a_str += "|" + "\u203E" * 9 + "|"
-      b_str += "|    #{to_unicode(day[2])}    |"
-      c_str += "|#{temp_to_string_min(day[0])}\u00B0/#{temp_to_string_max(day[1])}|"
-      d_str += "|_________|"
+  def self.with_spacing(attrib)
+    "#{attrib}" + " " * [(13 - attrib.to_s.length),0].max
+  end
+
+  def self.print_airline_cards(flight_results = [])
+    strings = Array.new(7, "")
+    flight_results.each do |flight|
+      strings[0] += "     |" + "\u203E" * 28 + "|"
+      strings[1] += "     |  JFK  \u2708  #{flight.location.airport}" + " "*15+"|"
+      strings[2] += "     |  Airline:     " + with_spacing(flight.airline) +"|"
+      strings[3] += "     |  Price:       " + with_spacing(flight.price) +"|"
+      strings[4] += "     |  Duration:    " + with_spacing(flight.travel_time) +"|"
+      strings[5] += "     |  Departure:   " + with_spacing(flight.departure_time) +"|"
+      strings[6] += "     |" + "_" * 28 + "|"
     end
-    puts a_str
-    puts b_str
-    puts c_str
-    puts d_str
+    strings.each { |str| puts str}
+  end
+
+  def self.test
+    weather = [
+      [70, 70, "Clear"],
+      [70, 70, "Clear"],
+      [70, 70, "Clear"],
+      [70, 70, "Clear"],
+      [70, 70, "Clear"],
+      [70, 70, "Clear"],
+      [70, 70, "Clear"]
+    ]
+    puts "\e[H\e[2J"
+    puts "Location"
+    flight_results = Flight.all.limit(2)
+    flight_results2 = Flight.all.limit(1)
+    print_weather_display(weather)
+    puts
+    print_airline_cards(flight_results)
+    puts
+    print_airline_cards(flight_results2)
+    puts
+    puts "See More?"
+
   end
 end

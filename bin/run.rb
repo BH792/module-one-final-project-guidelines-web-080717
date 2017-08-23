@@ -14,4 +14,4 @@ require_relative '../config/environment'
           #=>return 3 of the locations with the cheapest flights, ask if they want to see more or if they want to exit
     #2)Cheapest flight anywhere => returns chepeast flight to any location
 
-Console.main_menu_user_input_loop
+CommandLine.main_menu_user_input_loop
