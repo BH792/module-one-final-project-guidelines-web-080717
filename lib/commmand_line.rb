@@ -57,13 +57,15 @@ class CommandLine
   end
 
   def self.pause
-    gets
+    STDIN.getch
   end
 
   def self.display_single_flight(flight)
     location = flight.location
     puts ColorizedString["\u272f" * 4 + "You're going to #{location.name}" + "\u272f" * 4].yellow.blink
-    print_airline_cards(Flight.cheapest_flight)
+    puts
+    print_airline_cards([flight])
+    puts
     forecast = location.week_forecast
     print_weather_display(forecast)
   end
@@ -121,20 +123,14 @@ class CommandLine
   end
 
   def self.print_weather_display(weather_array)
-    a_str = ""
-    b_str = ""
-    c_str = ""
-    d_str = ""
+    strings = Array.new(4, "")
     weather_array.each do |day|
-      a_str += "|" + "\u203E" * 9 + "|"
-      b_str += "|    #{to_unicode(day[2])}    |"
-      c_str += "|#{temp_to_string_min(day[0])}\u00B0/#{temp_to_string_max(day[1])}|"
-      d_str += "|_________|"
+      strings[0] += "|" + "\u203E" * 9 + "|"
+      strings[1] += "|    #{to_unicode(day[2])}    |"
+      strings[2] += "|#{temp_to_string_min(day[0])}\u00B0/#{temp_to_string_max(day[1])}|"
+      strings[3] += "|_________|"
     end
-    puts a_str
-    puts b_str
-    puts c_str
-    puts d_str
+    strings.each { |str| puts ColorizedString[str].blue.on_light_white }
   end
 
   def self.with_spacing(attrib)
@@ -144,13 +140,13 @@ class CommandLine
   def self.print_airline_cards(flight_results = [])
     strings = Array.new(7, "")
     flight_results.each do |flight|
-      strings[0] += "     |" + "\u203E" * 28 + "|"
-      strings[1] += "     |  JFK  \u2708  #{flight.location.airport}" + " "*15+"|"
-      strings[2] += "     |  Airline:     " + with_spacing(flight.airline) +"|"
-      strings[3] += "     |  Price:       " + with_spacing(flight.price) +"|"
-      strings[4] += "     |  Duration:    " + with_spacing(flight.travel_time) +"|"
-      strings[5] += "     |  Departure:   " + with_spacing(flight.departure_time) +"|"
-      strings[6] += "     |" + "_" * 28 + "|"
+      strings[0] += "     " + ColorizedString["|" + "\u203E" * 28 + "|"].on_light_white
+      strings[1] += "     " + ColorizedString["|  " + ColorizedString["JFK  \u2708  #{flight.location.airport}"].blue + " "*15+"|"].on_light_white
+      strings[2] += "     " + ColorizedString["|  Airline:     " + with_spacing(flight.airline) +"|"].on_light_white
+      strings[3] += "     " + ColorizedString["|  Price:       " + with_spacing(flight.price) +"|"].on_light_white
+      strings[4] += "     " + ColorizedString["|  Duration:    " + with_spacing(flight.travel_time) +"|"].on_light_white
+      strings[5] += "     " + ColorizedString["|  Departure:   " + with_spacing(flight.departure_time) +"|"].on_light_white
+      strings[6] += "     " + ColorizedString["|" + "_" * 28 + "|"].on_light_white
     end
     strings.each { |str| puts str}
   end

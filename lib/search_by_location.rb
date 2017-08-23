@@ -11,6 +11,7 @@ module SearchByLocation
     card_pairs = (results.length / 2.0).ceil
     system "clear" if !results.empty?
     print_weather_display(results[0].location.week_forecast) if !results.empty?
+    puts
     case card_pairs
     when 0
       puts "No flights found"
