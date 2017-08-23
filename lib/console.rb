@@ -1,6 +1,7 @@
 require 'colorized_string'
 
-module Console
+class Console
+  extend SearchByWeather, SearchByLocation
 
   def self.print_main_menu
   puts <<-MENU
@@ -152,28 +153,4 @@ module Console
     puts bm_str
     puts bb_str
   end
-
-  def self.search_by_weather_clear
-   flights = Forecast.clear_locations_flights
-   flights.each do |flight|
-     location = Location.find(flight.location_id)
-     puts
-     puts "#{location.name}, #{location.airport} / $#{flight.price} / #{flight.travel_time} min"
-     weekly_forecast = location.week_forecast
-     self.print_weather_display(weekly_forecast)
-     puts
-   end
-  end
 end
-
-weather_array = [
-  [75, 76, "Rain"],
-  [75, 82, "Rain"],
-  [100, 102, "Clear"],
-  [79, 85, "Clear"],
-  [72, 76, "Clouds"],
-  [75, 77, "Clouds"],
-  [70, 74, "Clouds"],
-]
-
-Console.print_weather_display(weather_array)
